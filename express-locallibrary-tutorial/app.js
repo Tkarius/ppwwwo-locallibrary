@@ -9,6 +9,15 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+// Set up mongoose connection
+var mongoose = require('mongoose');
+// Hardcoded passwords seems like a _really_ bad idea.
+var mongoDB = 'mongodb://librarian:esteri12@ds115094.mlab.com:15094/locallibrary';
+mongoose.connect(mongoDB);
+mongoose.Promise = global.Promise;
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
