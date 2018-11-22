@@ -4,13 +4,14 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// Route handlers
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var catalogRouter = require('./routes/catalog');  //Import routes for "catalog" area of site
+var catalogRouter = require('./routes/catalog');
 
 var app = express();
 
-// Set up mongoose connection
+// MongoDB connection
 var mongoose = require('mongoose');
 // Hardcoded passwords seems like a _really_ bad idea.
 var mongoDB = 'mongodb://librarian:esteri12@ds115094.mlab.com:15094/locallibrary';
@@ -23,22 +24,24 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// Middleware chain
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Routers
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/catalog', catalogRouter);  // Add catalog routes to middleware chain.
+app.use('/catalog', catalogRouter);  
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// Error handlers. We don't really do much here.
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
