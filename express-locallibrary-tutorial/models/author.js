@@ -1,3 +1,4 @@
+var moment = require('moment');
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
@@ -19,11 +20,25 @@ AuthorSchema
   return this.family_name + ', ' + this.first_name;
 });
 
-// Virtual for author's lifespan
+// Virtual for an author's lifespan
 AuthorSchema
 .virtual('lifespan')
 .get(function () {
-  return (this.date_of_death.getYear() - this.date_of_birth.getYear()).toString();
+  return `${this.date_of_birth_formatted} -  ${this.date_of_death_formatted}`
+});
+
+// formatted version of date of birth for the author
+AuthorSchema
+.virtual('date_of_birth_formatted')
+.get(function () {
+  return this.date_of_birth ? moment(this.date_of_birth).format('MMMM Do, YYYY') : '';
+});
+
+// formatted version of date of death for the author
+AuthorSchema
+.virtual('date_of_death_formatted')
+.get(function () {
+  return this.date_of_death ? moment(this.date_of_death).format('MMMM Do, YYYY') : '';
 });
 
 // Virtual for author's URL
