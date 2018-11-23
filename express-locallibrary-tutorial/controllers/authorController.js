@@ -66,6 +66,7 @@ exports.author_create_post = [
     sanitizeBody('family_name').trim().escape(),
     sanitizeBody('date_of_birth').toDate(),
     sanitizeBody('date_of_death').toDate(),
+    sanitizeBody('nationality').trim().escape(),
 
     // Process request after validation and sanitization.
     (req, res, next) => {

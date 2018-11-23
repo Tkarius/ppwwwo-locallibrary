@@ -9,7 +9,7 @@ var AuthorSchema = new Schema(
     family_name: {type: String, required: true, max: 100},
     date_of_birth: {type: Date},
     date_of_death: {type: Date},
-    nationality: {type: String, max:100} // assuming this isn't autopopulated, let's not make it required.
+    nationality: {type: String, max:100}
   }
 );
 
